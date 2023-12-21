@@ -11,32 +11,116 @@ class InicilPage extends StatefulWidget {
 }
 
 class _InicilPageState extends State<InicilPage> {
+  double value = 0;
   final player = AudioPlayer();
+
+  @override
+  void initState() {
+    super.initState();
+    player.onAudioPositionChanged.listen((state) {
+    });
+  }
+
+  Future<void> playMusica() async {
+    try {
+      await player.play('assets/enemy.mp3');
+    } catch (e) {
+      print("Erro ao reproduzir a música: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(),
-      appBar: AppBar(
-        backgroundColor: Colors.grey[300],
-        centerTitle: true,
-        title: const Text('SpotiFy'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.network(
-              'https://th.bing.com/th/id/OIP.rX7iMP5X4cjcPMAj4n_hyQHaKS?rs=1&pid=ImgDetMain',
-              height: MediaQuery.of(context).size.width * 0.6,
-              width: MediaQuery.of(context).size.width * 0.6,
-            ),
-            Row(
-              children: [
-                Text('0:00'),
-              ],
-            ),
-          ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.green,
+              Colors.black,
+            ],
+            begin: Alignment.center,
+            end: Alignment.center,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 120),
+          child: Column(
+            children: [
+              SizedBox(height: 40),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.network(
+                    'https://th.bing.com/th/id/OIP.LXWXIJNXNt5vXuWU3tC1xAHaEK?w=271&h=180&c=7&r=0&o=5&dpr=1.9&pid=1.7'),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Arcane',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(fontSize: 22, color: Colors.white),
+                  ),
+                  Icon(
+                    Icons.favorite,
+                    color: Colors.green,
+                    size: 25,
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 6),
+                child: LinearProgressIndicator(
+                  value: value.toDouble(),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '0:20',
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.right,
+                  ),
+                  Text(
+                    '0:20',
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.right,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(
+                    Icons.play_arrow_rounded,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      playMusica();
+                    },
+                    child: Text('sd'),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.pause_circle_outline_sharp,
+                      color: Colors.white,
+                      size: 50,
+                    ),
+                  ),
+                  Icon(
+                    Icons.play_arrow_rounded,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
